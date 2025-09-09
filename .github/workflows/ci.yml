@@ -1,0 +1,43 @@
+name: Build and push docker image
+
+on:
+  push:
+    branches:
+      - main # trigger on push to main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # checkout your repo
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # set up java(open jdk)
+      -name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      #compile java code
+      -name: Compile java
+        run: javac Test.java
+
+      #login to docker hub using access token    
+      - name: Login to docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_TOKEN}}
+      
+      #build the docker image
+      - name: Build Docker image
+        run: |
+          docker build -t ${{secrets.DOCKERHUB_USERNAME}}/java-test:latest .
+
+      #push docker image to docker hub
+      - name: Push Docker image
+        run: |
+        docker push ${{secrets.DOCKERHUB_USERNAME}}/java-test:latest
