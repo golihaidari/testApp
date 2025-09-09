@@ -40,4 +40,4 @@ jobs:
       #push docker image to docker hub
       - name: Push Docker image
         run: |
-        docker push ${{secrets.DOCKERHUB_USERNAME}}/java-test:latest
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/java-test:latest
