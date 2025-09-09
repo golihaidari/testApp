@@ -15,14 +15,14 @@ jobs:
         uses: actions/checkout@v4
 
       # set up java(open jdk)
-      -name: Set up JDK
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
       #compile java code
-      -name: Compile java
+      - name: Compile java
         run: javac Test.java
 
       #login to docker hub using access token    
